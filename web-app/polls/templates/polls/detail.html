@@ -1,3 +1,26 @@
+<form action="{% url 'polls:vote' question.id %}" method="post">
+  <!-- Para evitar Cross-Site Scripting (XSS)-->
+  {% csrf_token %}
+  <fieldset>
+    <legend><h1>{{question.question_text}}</h1></legend>
+    {% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+    {% endif %} {% for choice in question.choice_set.all %}
+    <input
+      type="radio"
+      name="choice"
+      id="choice{{forloop.counter}}"
+      value="{{choice.id}}"
+    />
+    <label for="choice{{forloop.counter}}"> {{choice.choice_text}} </label>
+    <br />
+    {% endfor %}
+  </fieldset>
+  <br />
+  <input type="submit" value="Votar" />
+</form>
+
+{% comment %}
 <h1>{{ question.question_text }}</h1>
 <ol>
   {% for choice in question.choice__set.all %}
@@ -5,3 +28,4 @@
 
   {% endfor %}
 </ol>
+Comentarios CTRL+K y luego CTRL+U {% endcomment %}
